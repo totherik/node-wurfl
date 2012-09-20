@@ -18,20 +18,19 @@ describe('wurfl', function () {
 		};
 
 	it('should create a WURFL client', function (next) {
-		client = Wurfl.createClient({ apiKey: 'API KEY GOES HERE' });
+		client = Wurfl.createClient({ apiKey: '%YourApiKey%' });
 		should.exist(client);
 		next();
 	});
 
 
 	it('should successfully initiate a request with no capabilities defined', function (next) {
-		client.getCapabilities(req, function (err, value) {
+		client.getCapabilities(req, function (err, capabilities) {
 			should.not.exist(err);
-			should.exist(value);
-			should.exist(value.capabilities);
+			should.exist(capabilities);
 
-			should.strictEqual(value.capabilities.is_wireless_device, false);
-			should.strictEqual(value.capabilities.is_tablet, false);
+			should.strictEqual(capabilities.isWirelessDevice, false);
+			should.strictEqual(capabilities.isTablet, false);
 
 			next();
 		});
@@ -39,15 +38,14 @@ describe('wurfl', function () {
 
 
 	it('should successfully return the specified capability', function (next) {
-		client.getCapabilities(req, ['is_wireless_device'], function (err, value) {
+		client.getCapabilities(req, ['is_wireless_device'], function (err, capabilities) {
 			should.not.exist(err);
-			should.exist(value);
-			should.exist(value.capabilities);
+			should.exist(capabilities);
 
-			should.not.exist(value.capabilities.is_tablet);
+			should.not.exist(capabilities.isTablet);
 
-			should.exist(value.capabilities.is_wireless_device);
-			should.strictEqual(value.capabilities.is_wireless_device, false);
+			should.exist(capabilities.isWirelessDevice);
+			should.strictEqual(capabilities.isWirelessDevice, false);
 
 			next();
 		});
